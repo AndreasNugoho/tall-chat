@@ -29,9 +29,9 @@ class Users extends Component
 
         #create conversation
 
-        $createdConversation = Conversation::where([
+        $createdConversation = Conversation::create([
             'sender_id' => $authenticatedUserId,
-            'receiver_id' => $userId
+            'receiver_id' => $userId,
         ]);
 
         return redirect()->route('chat', ['query' => $createdConversation->id]);

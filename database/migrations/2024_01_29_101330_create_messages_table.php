@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conversations', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('conversation_id')->constrained();
 
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')->references('id')->on('users');
@@ -20,7 +21,14 @@ return new class extends Migration
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')->references('id')->on('users');
 
-            $table->softDeletes();
+            $table->timestamp('read_at')->nullable();
+
+            //delete action
+            $table->timestamp('receiver_deleted_at')->nullable();
+            $table->timestamp('sender_deleted_at')->nullable();
+
+            $table->text('body')->nullable();
+
             $table->timestamps();
         });
     }
@@ -30,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conversations');
+        Schema::dropIfExists('messages');
     }
 };

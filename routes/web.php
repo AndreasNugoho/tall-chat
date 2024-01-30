@@ -38,5 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{query}', Chat::class)->name('chat');
 
 
+
     Route::get('/users', Users::class)->name('users');
 });

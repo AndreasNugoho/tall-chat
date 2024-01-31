@@ -47,7 +47,7 @@
             @if ($conversations)
                 @foreach ($conversations as $key => $conversation)
                     <li id="conversation-{{ $conversation->id }}" wire:key="{{ $conversation->id }}"
-                        class="relative flex w-full gap-4 px-2 py-3 transition-colors duration-150 cursor-pointer hover:bg-gray-50 rounded-2xl dark:hover:bg-gray-900/70 {{ $conversation->id == $selectedConversation->id }} ? 'bg_gray-100/7':''">
+                        class="relative flex w-full gap-4 px-2 py-3 transition-colors duration-150 cursor-pointer hover:bg-gray-50 rounded-2xl dark:hover:bg-gray-700/70 {{ $conversation->id == $selectedConversation?->id }} ? 'bg_gray-100/7':''">
                         <a href="#" class="shrink-0">
                             <x-avatar src="https://source.unsplash.com/500x500?face-{{ $key }}" />
                         </a>

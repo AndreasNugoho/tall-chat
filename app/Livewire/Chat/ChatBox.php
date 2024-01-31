@@ -25,14 +25,12 @@ class ChatBox extends Component
             'conversation_id' => $this->selectedConversation->id,
             'sender_id' => auth()->id(),
             'receiver_id' => $this->selectedConversation->getReceiver()->id,
-            'body' => $this->body,
+            'body' => $this->body
 
         ]);
 
-        $this->reset('body');
 
-        //dd($createdMessage);
-        //dd($this->body);
+        $this->reset('body');
 
         $this->loadedMessages->push($createdMessage);
     }

@@ -32,52 +32,57 @@
         <main
             class="flex flex-col   gap-3   p-2.5  overflow-y-auto flex-grow  overscroll-contain overflow-x-hidden w-full my-auto ">
 
-            <div @class(['max-w-[85%] md:max-w-[78%] flex w-auto gap-2 relative mt-2'])>
+            @if ($loadedMessages)
 
-                {{-- avatar --}}
+                @foreach ($loadedMessages as $message)
+                    <div @class([
+                        'max-w-[85%] md:max-w-[78%] flex w-auto gap-2 relative mt-2',
+                        'ml-auto' => $message->sender_id === auth()->id(),
+                    ])>
 
-                <div @class(['shrink-0'])>
-                    <x-avatar src="https://source.unsplash.com/1600x900/?face" />
-                </div>
+                        {{-- avatar --}}
 
-                {{-- message body --}}
+                        <div @class(['shrink-0'])>
+                            <x-avatar src="https://source.unsplash.com/1600x900/?face" />
+                        </div>
 
-                <div @class([
-                    'flex  flex-wrap text-[15px] rounded-xl p-2.5 flex flex-col text-black bg-[#f6f6f8fb]',
-                    'rounded-bl-none rounded-bl-none border dark:border-gray-700/60 dark:text-gray-200  border-gray-200/40 dark:bg-gray-700/80 ' => false, // Message Does not Belong to auth
-                    'rounded-br-none bg-blue-500/80 dark:bg-blue-700/50 text-white' => true, //Message belongs to auth
-                ])>
+                        {{-- message body --}}
 
-                    <p class="text-sm tracking-wide truncate whitespace-normal md:text-base lg:tracking-normal"> Lorem
-                        ipsum dolor sit amet consectetur adipisicing elit. Dolore quam asperiores rerum ab alias,
-                        doloribus pariatur exercitationem facilis voluptatum quis atque laudantium quae iusto
-                        voluptatibus rem explicabo maiores excepturi aut! exercitationem facilis voluptatum quis atque
-                        laudantium quae iusto voluptatibus rem explicabo maiores excepturi aut! exercitationem facilis
-                        voluptatum quis atque laudantium quae iusto voluptatibus rem explicabo maiores excepturi aut!
-                    </p>
+                        <div @class([
+                            'flex  flex-wrap text-[15px] rounded-xl p-2.5 flex flex-col text-black bg-[#f6f6f8fb]',
+                            'rounded-bl-none rounded-bl-none border dark:border-gray-700/60 dark:text-gray-200  border-gray-200/40 dark:bg-gray-700/80 ' => !(
+                                $message->sender_id === auth()->id()
+                            ), // Message Does not Belong to auth
+                            'rounded-br-none bg-blue-500/80 dark:bg-blue-700/50 text-white' =>
+                                $message->sender_id === auth()->id(), //Message belongs to auth
+                        ])>
 
-                    <div class="flex gap-2 ml-auto">
-                        <p @class([
-                            'direct_chat_timestamp  text-xs ',
-                            'text-gray-500 ' => false, // Message Does not Belong to auth
-                            'text-white' => true, //Message belongs to auth
-                        ])> 5:25 am</p>
+                            <p class="text-sm tracking-wide truncate whitespace-normal md:text-base lg:tracking-normal">
+                                {{ $message->body }}
+                            </p>
 
-                        <div class="status">
+                            <div class="flex gap-2 ml-auto">
+                                <p @class([
+                                    'direct_chat_timestamp  text-xs ',
+                                    'text-gray-500 ' => !($message->sender_id === auth()->id()), // Message Does not Belong to auth
+                                    'text-white' => $message->sender_id === auth()->id(), //Message belongs to auth
+                                ])> 5:25 am</p>
 
-                            {{-- centang dua --}}
-                            <span @class(['text-gray-500  double_tick '])>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
-                                    <path
-                                        d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
-                                    <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
-                                </svg>
-                            </span>
+                                <div class="status">
 
-                            {{-- centang satu --}}
+                                    {{-- centang dua --}}
+                                    <span @class(['text-gray-500  double_tick '])>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+                                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+                                        </svg>
+                                    </span>
 
-                            {{-- <span @class('text-white-500')>
+                                    {{-- centang satu --}}
+
+                                    {{-- <span @class('text-white-500')>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-check2" viewBox="0 0 16 16">
                                 <path
@@ -87,12 +92,15 @@
 
 
 
+                                </div>
+                            </div>
+
                         </div>
+
                     </div>
+                @endforeach
+            @endif
 
-                </div>
-
-            </div>
 
         </main>
 

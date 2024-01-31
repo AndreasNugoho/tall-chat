@@ -33,6 +33,8 @@ class ChatBox extends Component
 
         //dd($createdMessage);
         //dd($this->body);
+
+        $this->loadedMessages->push($createdMessage);
     }
 
     public function mount()

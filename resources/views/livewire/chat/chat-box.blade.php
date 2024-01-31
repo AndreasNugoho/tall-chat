@@ -100,15 +100,15 @@
 
         <footer class="inset-x-0 z-10 bg-white shrink-0 dark:bg-inherit">
             <div class="p-2 border-t dark:border-gray-600">
-                <form method="POST" autocapitalize="off">
+                <form x-data="{ body: @entangle('body').defer }" @submit.prevent="$wire.sendMessage" method="POST" autocapitalize="off">
                     @csrf
                     <input type="hidden" autocomplete="false" style="display: none">
                     <div class="grid grid-cols-12">
-                        <input autocomplete="off" wire:model.defer='body' id="sendMessage" autofocus type="text"
-                            name="message" placeholder="Write your message here ..." maxlength="1700"
+                        <input x-model="body" autocomplete="off" wire:model.defer='body' id="sendMessage" autofocus
+                            type="text" name="message" placeholder="Write your message here ..." maxlength="1700"
                             class="col-span-10 bg-gray-100 border-0 rounded-lg dark:bg-gray-900 outline-0 focus:border-0 focus:ring-0 hover:ring-0 dark:text-gray-300 focus:outline-none " />
 
-                        <button type="submit" class="col-span-2 rounded">Send</button>
+                        <button x-bind:disabled="!body.trim()" type="submit" class="col-span-2 rounded">Send</button>
 
                     </div>
                 </form>

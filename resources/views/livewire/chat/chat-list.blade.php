@@ -1,4 +1,16 @@
-<div x-data="{ type: 'all' }" class="flex flex-col h-full overflow-hidden transition-all">
+<div x-data="{ type: 'all', query: @entangle('query') }" x-init="setTimeout(
+    () => {
+        conversationElement = document.getElementById('conversation-' + query);
+
+        //scroll to the elemet
+
+        if (conversationElement) {
+
+            conversationElement.scrollIntoView({ 'behavior': 'smooth' });
+
+        }
+    }
+), 200;" class="flex flex-col h-full overflow-hidden transition-all">
     <header class="sticky top-0 z-10 w-full px-3 py-2 bg-white">
         <div class="flex items-center justify-between pb-2 border-b">
             <div class="items-center gap-2 file">
@@ -34,8 +46,8 @@
 
             @if ($conversations)
                 @foreach ($conversations as $key => $conversation)
-                    <li
-                        class="relative flex w-full gap-4 px-2 py-3 transition-colors duration-150 cursor-pointer hover:bg-gray-50 rounded-2xl dark:hover:bg-gray-700/70 {{ $conversation->id == $selectedConversation->id }} ? 'bg_gray-100/7':''">
+                    <li id="conversation-{{ $conversation->id }}" wire:key="{{ $conversation->id }}"
+                        class="relative flex w-full gap-4 px-2 py-3 transition-colors duration-150 cursor-pointer hover:bg-gray-50 rounded-2xl dark:hover:bg-gray-900/70 {{ $conversation->id == $selectedConversation->id }} ? 'bg_gray-100/7':''">
                         <a href="#" class="shrink-0">
                             <x-avatar src="https://source.unsplash.com/500x500?face-{{ $key }}" />
                         </a>

@@ -66,7 +66,7 @@
                                     'direct_chat_timestamp  text-xs ',
                                     'text-gray-500 ' => !($message->sender_id === auth()->id()), // Message Does not Belong to auth
                                     'text-white' => $message->sender_id === auth()->id(), //Message belongs to auth
-                                ])> 5:25 am</p>
+                                ])> {{ $message->created_at->format('g:i a') }}</p>
 
                                 @if ($message->sender_id === auth()->id())
                                     <div>
@@ -125,6 +125,8 @@
                 @enderror
             </div>
         </footer>
+
+
 
     </div>
 </div>

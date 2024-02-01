@@ -41,7 +41,7 @@ class ChatBox extends Component
         $this->selectedConversation->updated_at = now();
         $this->selectedConversation->save();
 
-        $this->dispatch('chat.chat-list', 'refresh');
+        $this->dispatch('refresh');
     }
 
     public function mount()

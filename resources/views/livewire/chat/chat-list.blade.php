@@ -85,8 +85,8 @@
                                 </svg>
                             </span> --}}
 
-                                    <p class="grow truncate text-sm font-[100]">
-                                        lorem ipsum dolor sit amet, consectetur adip
+                                    <p class="grow truncate text-sm font-[200]">
+                                        {{ $conversation?->messages?->last()?->body ?? ' ' }}
                                     </p>
                                     <span
                                         class="p-px px-2 text-xs font-bold text-white bg-blue-500 rounded-full shrink-0">5</span>

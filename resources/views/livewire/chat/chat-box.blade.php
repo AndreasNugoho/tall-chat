@@ -25,7 +25,7 @@ $nextTick(() => conversationElement.scrollTop = height);"
                     <x-avatar class="h-9 w-9 lg:w-11 lg:h-11 " />
                 </div>
 
-                <h6 class="font-bold truncate"> {{ $selectedConversation->getReceiver()->email }} </h6>
+                <h6 class="font-bold truncate"> {{ $selectedConversation->getReceiver()->name }} </h6>
 
             </div>
 
@@ -38,7 +38,17 @@ $nextTick(() => conversationElement.scrollTop = height);"
 
             @if ($loadedMessages)
 
-                @foreach ($loadedMessages as $message)
+                @php
+                    $previousMessage = null;
+                @endphp
+
+                @foreach ($loadedMessages as $key => $message)
+                    @if ($key > 0)
+                        @php
+                            $previousMessage = $loadedMessages->get($key - 1);
+                        @endphp
+                    @endif
+
                     <div @class([
                         'max-w-[85%] md:max-w-[78%] flex w-auto gap-2 relative mt-2',
                         'ml-auto' => $message->sender_id === auth()->id(),
@@ -46,8 +56,12 @@ $nextTick(() => conversationElement.scrollTop = height);"
 
                         {{-- avatar --}}
 
-                        <div @class(['shrink-0'])>
-                            <x-avatar src="https://source.unsplash.com/1600x900/?face" />
+                        <div @class([
+                            'shrink-0',
+                            'invisible' => $previousMessage?->sender_id == $message->sender_id,
+                            'hidden' => $message->sender_id === auth()->id(),
+                        ])>
+                            <x-avatar />
                         </div>
 
                         {{-- message body --}}

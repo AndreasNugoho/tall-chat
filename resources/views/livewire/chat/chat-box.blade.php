@@ -10,7 +10,7 @@ $nextTick(() => conversationElement.scrollTop = height);"
         <header
             class="w-full  sticky inset-x-0 flex pb-[5px] pt-[5px] top-0 z-10 bg-white dark:bg-gray-800  border-b dark:border-gray-600">
 
-            <div class="flex items-center w-full gap-2 px-2 lg:px-4 md:gap-3 ">
+            <div class="flex items-center w-full gap-2 px-2 lg:px-4 md:gap-5 ">
 
                 <a href="#" class=" shrink-0 lg:hidden dark:text-white" id="chatReturn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

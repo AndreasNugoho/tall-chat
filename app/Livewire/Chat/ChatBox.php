@@ -12,13 +12,41 @@ class ChatBox extends Component
     public $body;
     public $loadedMessages;
 
+    public $paginate_var = 15;
+
+    protected $listeners = [
+        'loadMore'
+    ];
+
+
+    public function loadMore(): void
+    {
+        #increment 
+        $this->paginate_var += 15;
+
+        #call loadMessages()
+
+        $this->loadMessages();
+    }
+
+
     public function loadMessage()
     {
-        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)->get();
+        #get count
+        $count =  Message::where('conversation_id', $this->selectedConversation->id)->count();
+
+        #skip and query
+        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
+            ->skip($count - $this->paginate_var)
+            ->take($this->paginate_var)
+            ->get();
+
+        return $this->loadedMessages;
     }
 
     public function sendMessage()
     {
+
         $this->validate(['body' => 'required|string']);
 
         $createdMessage = Message::create([

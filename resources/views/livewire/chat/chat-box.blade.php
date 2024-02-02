@@ -33,7 +33,14 @@ $nextTick(() => conversationElement.scrollTop = height);"
 
         {{-- body --}}
 
-        <main id="conversation"
+        <main
+            @scroll="
+            scropTop = $el.scrollTop;
+            if(scropTop <= 0){
+                window.livewire.dispatch('loadMore');
+            }
+            "
+            id="conversation"
             class="flex flex-col gap-3 p-2.5 overflow-y-auto flex-grow overscroll-contain overflow-x-hidden w-full my-auto ">
 
             @if ($loadedMessages)

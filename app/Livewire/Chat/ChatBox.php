@@ -3,6 +3,7 @@
 namespace App\Livewire\Chat;
 
 use App\Models\Message;
+use App\Notifications\MessageSent;
 use Livewire\Component;
 
 class ChatBox extends Component
@@ -77,6 +78,14 @@ class ChatBox extends Component
         $this->selectedConversation->save();
 
         $this->dispatch('refresh');
+
+        $this->selectedConversation->getReceiver()
+            ->notify(new MessageSent(
+                Auth()->User(),
+                $createdMessage,
+                $this->selectedConversation,
+                $this->selectedConversation->getReceiver()->id
+            ));
     }
 
     public function mount()

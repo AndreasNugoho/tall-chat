@@ -21,12 +21,16 @@ class ChatBox extends Component
 
     public function loadMore(): void
     {
+
+        // dd('detected');
         #increment 
-        $this->paginate_var += 15;
+        // $this->paginate_var += 15;
 
         #call loadMessages()
 
-        $this->loadMessages();
+        // $this->loadMessages();
+
+        $this->dispatch('update-chat-height');
     }
 
 
@@ -35,13 +39,16 @@ class ChatBox extends Component
         #get count
         $count =  Message::where('conversation_id', $this->selectedConversation->id)->count();
 
-        #skip and query
-        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
-            ->skip($count - $this->paginate_var)
-            ->take($this->paginate_var)
-            ->get();
+        #fix
+        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)->get();
 
-        return $this->loadedMessages;
+        #skip and query
+        // $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
+        //     ->skip($count - $this->paginate_var)
+        //     ->take($this->paginate_var)
+        //     ->get();
+
+        // return $this->loadedMessages;
     }
 
     public function sendMessage()

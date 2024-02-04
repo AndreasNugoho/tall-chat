@@ -4,34 +4,23 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MessageSent extends Notification implements ShouldBroadcast
+class MessageRead extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-
-    public $user;
-    public $message;
-    public $conversation;
-    public $receiverId;
-    public function __construct(
-        $user,
-        $message,
-        $conversation,
-        $receiverId,
-    ) {
-        $this->user = $user;
-        $this->message = $message;
-        $this->conversation = $conversation;
-        $this->receiverId = $receiverId;
+    public $conversation_id;
+    public function __construct($conversation_id)
+    {
+        //
+        $this->conversation_id = $conversation_id;
     }
 
     /**
@@ -44,6 +33,13 @@ class MessageSent extends Notification implements ShouldBroadcast
         return ['broadcast'];
     }
 
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'conversation_id' => $this->conversation_id,
+        ]);
+    }
+
     /**
      * Get the mail representation of the notification.
      */
@@ -53,17 +49,6 @@ class MessageSent extends Notification implements ShouldBroadcast
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
-    }
-
-
-    public function toBroadcast(object $notifiable): BroadcastMessage
-    {
-        return new BroadcastMessage([
-            'user_id' => $this->user->id,
-            'conversation_id' => $this->conversation->id,
-            'message_id' => $this->message->id,
-            'receiver_id' => $this->receiverId,
-        ]);
     }
 
     /**

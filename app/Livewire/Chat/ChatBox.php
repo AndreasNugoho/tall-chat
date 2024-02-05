@@ -78,19 +78,35 @@ class ChatBox extends Component
 
     public function loadMessage()
     {
+        $userId = auth()->id();
         #get count
-        $count =  Message::where('conversation_id', $this->selectedConversation->id)->count();
+        $count =  Message::where('conversation_id', $this->selectedConversation->id)
+            ->where(function ($query) use ($userId) {
+
+                $query->where('sender_id', $userId)
+                    ->whereNull('sender_deleted_at');
+            })->orWhere(function ($query) use ($userId) {
+
+                $query->where('receiver_id', $userId)
+                    ->whereNull('receiver_deleted_at');
+            })
+            ->count();
 
         #fix
-        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)->get();
+        $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
+            ->where(function ($query) use ($userId) {
 
-        #skip and query
-        // $this->loadedMessages = Message::where('conversation_id', $this->selectedConversation->id)
-        //     ->skip($count - $this->paginate_var)
-        //     ->take($this->paginate_var)
-        //     ->get();
+                $query->where('sender_id', $userId)
+                    ->whereNull('sender_deleted_at');
+            })->orWhere(function ($query) use ($userId) {
 
-        // return $this->loadedMessages;
+                $query->where('receiver_id', $userId)
+                    ->whereNull('receiver_deleted_at');
+            })
+            ->get();
+
+
+        return $this->loadedMessages;
     }
 
     public function sendMessage()

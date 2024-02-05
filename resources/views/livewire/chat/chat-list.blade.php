@@ -1,17 +1,23 @@
-<div x-data="{ type: 'all', query: @entangle('query') }" x-init="setTimeout(() => {
+<div x-data="{ type: 'all', query: @entangle('query') }" x-init=" setTimeout(() => {
+     conversationElement = document.getElementById('conversation-' + query);
+     // Scroll to the conversation element
+     if (conversationElement) {
+         conversationElement.scrollIntoView({ behavior: 'smooth' });
+     }
+ }, 200);
 
-    conversationElement = document.getElementById('conversation-' + query);
+ {{-- ------------ --}}
+ {{-- MarkAsRead --}}
+ {{-- ------------ --}}
+ Echo.private('users.{{ Auth()->user()->id }}')
+     .notification((notification) => {
+         if (notification['type'] == 'App\\Notifications\\MessageRead' || notification['type'] == 'App\\Notifications\\MessageSent') {
 
+             window.Livewire.dispatch('refresh');
 
-    //scroll to the element
-
-    if (conversationElement) {
-
-        conversationElement.scrollIntoView({ 'behavior': 'smooth' });
-
-    }
-
-}, 200);" class="flex flex-col h-full overflow-hidden transition-all">
+         }
+     });"
+    class=" h-[93.5%] md:h-full overflow-hidden flex flex-col  transition-all">
 
     <header class="sticky top-0 z-10 w-full px-3 py-2 bg-white">
 
@@ -51,7 +57,7 @@
     </header>
 
 
-    <main class="relative h-full overflow-hidden overflow-y-scroll  grow" style="contain:content">
+    <main class="relative h-full overflow-hidden overflow-y-scroll grow" style="contain:content">
 
         {{-- chatlist  --}}
 
@@ -175,7 +181,8 @@
                                                 View Profile
 
                                             </button>
-                                            <button
+                                            <button onclick="confirm('Are you sure?')||event.stopImmediatePropagation()"
+                                                wire:click="deleteByUser('{{ encrypt($conversation->id) }}')"
                                                 class="flex items-center w-full gap-3 px-4 py-2 text-sm leading-5 text-left text-gray-500 transition-all duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
 
                                                 <span>

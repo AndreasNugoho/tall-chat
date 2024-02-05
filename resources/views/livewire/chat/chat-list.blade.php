@@ -51,7 +51,7 @@
     </header>
 
 
-    <main class="relative h-full overflow-hidden overflow-y-scroll grow" style="contain:content">
+    <main class="relative h-full overflow-hidden overflow-y-scroll  grow" style="contain:content">
 
         {{-- chatlist  --}}
 
@@ -91,7 +91,7 @@
 
                                     @if ($conversation->messages?->last()?->sender_id == auth()->id())
                                         @if ($conversation->isLastMessageReadByUser())
-                                            {{-- centang dua  --}}
+                                            {{-- double tick  --}}
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
@@ -102,7 +102,7 @@
                                                 </svg>
                                             </span>
                                         @else
-                                            {{-- centang satu  --}}
+                                            {{-- single tick  --}}
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">

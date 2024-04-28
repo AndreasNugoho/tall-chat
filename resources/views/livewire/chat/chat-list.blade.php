@@ -73,7 +73,6 @@
                         </a>
 
                         <aside class="grid w-full grid-cols-12">
-
                             <a href="{{ route('chat', $conversation->id) }}"
                                 class="relative w-full col-span-11 p-1 pb-2 overflow-hidden leading-5 truncate border-b border-gray-200 flex-nowrap">
 
@@ -123,6 +122,7 @@
 
 
                                     <p class="grow truncate text-sm font-[100]">
+
                                         {{ $conversation->messages?->last()?->body ?? ' ' }}
                                     </p>
 
